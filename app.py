@@ -1,3 +1,4 @@
+import os
 import pymysql
 pymysql.install_as_MySQLdb()
 from evaluate import evaluate_answer
@@ -502,4 +503,5 @@ def delete_teacherDataManage(id):
 
 # Run the app
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
