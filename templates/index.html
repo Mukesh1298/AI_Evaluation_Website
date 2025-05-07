@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Evaluation - Login/Signup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-purple-500 to-indigo-600 flex items-center justify-center min-h-screen">
+
+    <div class="bg-white p-8 rounded-lg shadow-lg w-96">
+        <h2 class="text-2xl font-bold text-center mb-4" id="form-title">Login</h2>
+        
+        <form id="auth-form">
+            
+            <div id="signup-fields" class="hidden">
+                <label class="block text-gray-700">Name</label>
+                <input type="text" id="name" placeholder="add your name"  class="w-full p-2 border rounded mb-3">
+
+                <label class="block text-gray-700">Role</label>
+                <select id="role" title="role"   class="w-full p-2 border rounded mb-3">
+                    <option value="student">Student</option>
+                    <option value="teacher">Teacher</option>
+                    <option value="admin">Admin</option>
+                </select>
+
+                <label class="block text-gray-700">Password</label>
+                <input type="password" title="password"  id="signup-password" class="w-full p-2 border rounded mb-3">
+            </div>
+
+         
+            <div id="login-fields">
+                <label class="block text-gray-700">Application ID</label>
+                <input type="text" title="text"  id="appID" class="w-full p-2 border rounded mb-3">
+
+                <label class="block text-gray-700">Password</label>
+                <input type="password"   placeholder="password" id="login-password" class="w-full p-2 border rounded mb-3">
+            </div>
+
+            <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700 transition">
+                Submit
+            </button>
+           <center><a href="forgot-password.html">Forgot Password</a> </center>
+
+            <p class="text-center mt-3">
+                <a href="#" id="toggle-form" class="text-indigo-600 font-semibold">Don't have an account? Signup</a>
+            </p>
+
+            <p id="generated-id-message" class="text-center text-green-600 mt-3 hidden"></p>
+        </form>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

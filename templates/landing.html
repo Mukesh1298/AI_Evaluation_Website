@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Evaluation System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+   <style>
+
+    .developer-card {
+        transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    
+    .developer-card:hover {
+        transform: scale(1.08);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .dropdown-menu {
+        opacity: 0;
+        visibility: hidden;
+        position: absolute;
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        min-width: 180px;
+        z-index: 1000;
+        transform: translateY(10px);
+        transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    }
+    
+   
+    .dropdown:hover .dropdown-menu {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+    }
+    
+    .dropdown-menu a {
+        display: block;
+        padding: 12px 18px;
+        color: #333;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background-color 0.2s ease, color 0.2s ease;
+    }
+    
+    .dropdown-menu a:hover {
+        background-color: #f7f7f7;
+        color: #007bff;
+    }
+</style>
+</head>
+<body class="min-h-screen flex flex-col bg-gray-100 text-gray-800">
+
+    <nav class="bg-gray-900 p-4 text-white fixed w-full shadow-lg z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">AI Evaluation System</h1>
+            <div class="flex items-center space-x-4">
+                <a href="#home" class="px-4 hover:text-gray-400">Home</a>
+                <a href="#about" class="px-4 hover:text-gray-400">About Us</a>
+                <a href="#developers" class="px-4 hover:text-gray-400">Developers</a>
+                <a href="#contact" class="px-4 hover:text-gray-400">Contact</a>
+
+                <div class="relative dropdown">
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Login</button>
+                    <div class="dropdown-menu absolute right-0 mt-2 bg-white rounded shadow-lg">
+                        <a href="adminlogin">Admin Login</a>
+                        <a href="studentlogin">Teacher Login</a>
+                        <a href="student_register">Student Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <section id="home" class="bg-gray-900 text-white text-center py-24 mt-16">
+        <h1 class="text-5xl font-extrabold mb-4 animate__animated animate__fadeInDown">AI-Based Automated Evaluation System</h1>
+        <p class="text-lg max-w-2xl mx-auto animate__animated animate__fadeInUp">
+            Transform student assessments with AI-powered evaluation, instant feedback, and performance tracking.
+        </p>
+        <div class="mt-6 animate__animated animate__zoomIn">
+            <a href="index.html" class="px-6 py-3 bg-blue-500 text-white font-bold rounded shadow hover:bg-blue-600 transition">Get Started</a>
+        </div>
+    </section>
+
+   
+        <section id="about" class="bg-white text-center py-16">
+            <h2 class="text-4xl font-bold text-gray-800 mb-4 animate__animated animate__fadeIn">About Us</h2>
+            <p class="text-lg text-gray-600 max-w-3xl mx-auto animate__animated animate__fadeInUp">
+                Our AI-based Automated Evaluation System is designed to simplify assessments, automate grading, and provide intelligent feedback to students. 
+                The system ensures efficiency for **admins**, **teachers**, and **students**, making the evaluation process smarter and more effective.
+            </p>
+    
+            <div class="mt-10 max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+               
+                <div class="bg-gray-100 p-6 rounded-lg shadow-lg animate__animated animate__fadeInUp">
+                    <h3 class="text-2xl font-semibold text-gray-800">🔹 Admin</h3>
+                    <p class="text-gray-600 mt-2">
+                        The **Admin Dashboard** allows management of users, controlling assessments, and overseeing the system's functionality. Admins ensure smooth operation and monitor platform usage.
+                    </p>
+                </div>
+    
+                <div class="bg-gray-100 p-6 rounded-lg shadow-lg animate__animated animate__fadeInUp delay-200">
+                    <h3 class="text-2xl font-semibold text-gray-800">📚 Teacher</h3>
+                    <p class="text-gray-600 mt-2">
+                        Teachers can **add questions, manually review student answers, and override AI-based scores** if necessary. The system assists teachers with AI-generated grading insights.
+                    </p>
+                </div>
+    
+                <div class="bg-gray-100 p-6 rounded-lg shadow-lg animate__animated animate__fadeInUp delay-400">
+                    <h3 class="text-2xl font-semibold text-gray-800">🎓 Student</h3>
+                    <p class="text-gray-600 mt-2">
+                        Students can **answer questions, submit responses, and receive AI-driven feedback**. The system provides performance tracking and detailed analysis of their answers.
+                    </p>
+                </div>
+            </div>
+    
+            <div class="mt-16">
+                <h3 class="text-3xl font-bold text-gray-800 animate__animated animate__fadeIn">AI-Based Evaluation & Feedback</h3>
+                <p class="text-lg text-gray-600 mt-4 max-w-3xl mx-auto animate__animated animate__fadeInUp">
+                    The AI analyzes responses based on predefined models and past data to generate **instant feedback and performance reports**. Teachers can also review AI-generated scores manually.
+                </p>
+            </div>
+        </section>
+    
+
+    <section id="developers" class="bg-gray-800 text-white text-center py-16">
+        <h2 class="text-4xl font-bold mb-6 animate__animated animate__fadeIn">Meet Our Developers</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          
+            <div class="bg-white text-gray-900 p-6 rounded shadow-md developer-card animate__animated animate__fadeInUp">
+                <img src="https://via.placeholder.com/150" alt="Developer 1" class="w-32 h-32 mx-auto rounded-full">
+                <h3 class="text-xl font-semibold mt-4">Mukesh Singh Rana</h3>
+                <p>ML Engineer</p>
+            </div>
+            <div class="bg-white text-gray-900 p-6 rounded shadow-md developer-card animate__animated animate__fadeInUp">
+                <img src="https://via.placeholder.com/150" alt="Developer 2" class="w-32 h-32 mx-auto rounded-full">
+                <h3 class="text-xl font-semibold mt-4">Rajesh Kalakoti</h3>
+                <p>Frontend Developer</p>
+            </div>
+            <div class="bg-white text-gray-900 p-6 rounded shadow-md developer-card animate__animated animate__fadeInUp">
+                <img src="https://via.placeholder.com/150" alt="Developer 3" class="w-32 h-32 mx-auto rounded-full">
+                <h3 class="text-xl font-semibold mt-4">Ritik Panwar</h3>
+                <p>All Rounder</p>
+            </div>
+            <div class="bg-white text-gray-900 p-6 rounded shadow-md developer-card animate__animated animate__fadeInUp">
+                <img src="https://via.placeholder.com/150" alt="Developer 4" class="w-32 h-32 mx-auto rounded-full">
+                <h3 class="text-xl font-semibold mt-4">Vinay Singh Danu</h3>
+                <p>Frontend Developer</p>
+            </div>
+            <div class="bg-white text-gray-900 p-6 rounded shadow-md developer-card animate__animated animate__fadeInUp">
+                <img src="https://via.placeholder.com/150" alt="Developer 5" class="w-32 h-32 mx-auto rounded-full">
+                <h3 class="text-xl font-semibold mt-4">Milan Rai</h3>
+                <p>Backend Developer</p>
+            </div>
+            <div class="bg-white text-gray-900 p-6 rounded shadow-md developer-card animate__animated animate__fadeInUp">
+                <img src="https://via.placeholder.com/150" alt="Developer 6" class="w-32 h-32 mx-auto rounded-full">
+                <h3 class="text-xl font-semibold mt-4">Ankit Diktiya</h3>
+                <p>Website Tester</p>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="contact" class="bg-white text-center py-16">
+        <h2 class="text-4xl font-bold text-gray-800 mb-4 animate__animated animate__fadeIn">Contact Us</h2>
+        <p class="text-lg text-gray-600 max-w-2xl mx-auto animate__animated animate__fadeInUp">For any queries, reach out to us using the form below.</p>
+
+        <form class="mt-8 max-w-lg mx-auto bg-gray-100 p-6 shadow-lg rounded animate__animated animate__fadeInUp">
+            <label class="block text-gray-700 mb-2">Name:</label>
+            <input type="text" class="w-full p-3 border rounded mb-4" placeholder="Your Name" required>
+
+            <label class="block text-gray-700 mb-2">Email:</label>
+            <input type="email" class="w-full p-3 border rounded mb-4" placeholder="Your Email" required>
+
+            <label class="block text-gray-700 mb-2">Message:</label>
+            <textarea class="w-full p-3 border rounded mb-4" rows="4" placeholder="Your Message" required></textarea>
+
+            <button type="submit" class="w-full bg-blue-500 text-white py-3 rounded font-semibold hover:bg-blue-600 transition">Send Message</button>
+        </form>
+    </section>
+
+ 
+    <footer class="bg-gray-900 text-white text-center py-4">
+        <p>&copy; 2025 AI Evaluation System. All Rights Reserved.</p>
+    </footer>
+
+</body>
+</html>

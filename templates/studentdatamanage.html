@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6 font-sans">
+  <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold text-indigo-700 mb-4">Student Management</h1>
+
+    <form id="studentForm" class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+      <input type="hidden" id="studentId">
+      <input type="text" id="studentName" placeholder="Enter Name" required
+             class="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400">
+      <input type="text" id="studentUsername" placeholder="Enter Username" required
+             class="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400">
+      <input type="password" id="studentPass" placeholder="Enter Password" required
+             class="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400">
+      <button type="submit"
+              class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200 col-span-1 md:col-auto">
+        Save
+      </button>
+    </form>
+
+    <div class="overflow-x-auto">
+      <table class="w-full table-auto border border-gray-300 rounded">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="p-3 border border-gray-300">ID</th>
+            <th class="p-3 border border-gray-300">Name</th>
+            <th class="p-3 border border-gray-300">Username</th>
+            <th class="p-3 border border-gray-300">Password</th>
+            <th class="p-3 border border-gray-300">Actions</th>
+          </tr>
+        </thead>
+        <tbody id="studentList" class="divide-y divide-gray-200"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchStudents();
+
+      const form = document.getElementById("studentForm");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const id = document.getElementById("studentId").value;
+        const student_name = document.getElementById("studentName").value;
+        const student_username = document.getElementById("studentUsername").value;
+        const student_pass = document.getElementById("studentPass").value;
+
+        if (id) {
+          await fetch(`/api/studentManage/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ student_name, student_username, student_pass })
+          });
+        } else {
+          await fetch("/api/studentManage", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ student_name, student_username, student_pass })
+          });
+        }
+
+        form.reset();
+        fetchStudents();
+      });
+    });
+
+    async function fetchStudents() {
+      const res = await fetch("/api/studentManage");
+      const data = await res.json();
+      const list = document.getElementById("studentList");
+      list.innerHTML = "";
+      data.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td class="p-3 border border-gray-300">${item.student_id}</td>
+          <td class="p-3 border border-gray-300">${item.student_name}</td>
+          <td class="p-3 border border-gray-300">${item.student_username}</td>
+          <td class="p-3 border border-gray-300">${item.student_pass}</td>
+          <td class="p-3 border border-gray-300 space-x-2">
+            <button onclick="editStudent(${item.student_id}, '${item.student_name.replace(/'/g, "\\'")}', '${item.student_username.replace(/'/g, "\\'")}', '${item.student_pass.replace(/'/g, "\\'")}')"
+                    class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+              Edit
+            </button>
+            <button onclick="deleteStudent(${item.student_id})"
+                    class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+              Delete
+            </button>
+          </td>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    function editStudent(id, name, username, pass) {
+      document.getElementById("studentId").value = id;
+      document.getElementById("studentName").value = name;
+      document.getElementById("studentUsername").value = username;
+      document.getElementById("studentPass").value = pass;
+    }
+
+    async function deleteStudent(id) {
+      await fetch(`/api/studentManage/${id}`, { method: "DELETE" });
+      fetchStudents();
+    }
+  </script>
+</body>
+</html>

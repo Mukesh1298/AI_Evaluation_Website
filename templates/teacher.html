@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Teacher - Add Questions</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans p-6">
+
+  <h2 class="text-3xl font-bold text-center text-indigo-700 mb-8">Add Question, Answer & Marks</h2>
+
+  <div class="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-lg">
+    
+    <form id="questionForm" class="space-y-4">
+      <div>
+        <label class="block font-semibold text-gray-700">Question:</label>
+        <input type="text" id="question" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400">
+      </div>
+
+      <div>
+        <label class="block font-semibold text-gray-700">Answer:</label>
+        <input type="text" id="answer" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400">
+      </div>
+
+      <div>
+        <label class="block font-semibold text-gray-700">Marks:</label>
+        <input type="number" id="marks" class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400">
+      </div>
+
+      <button type="submit" class="bg-green-500 text-white px-5 py-2 rounded hover:bg-green-600 transition duration-200">
+        Add
+      </button>
+    </form>
+
+    <h3 class="text-xl font-semibold mt-8 text-gray-800">Questions Added:</h3>
+    <ul id="qaList" class="mt-4 space-y-3"></ul>
+  </div>
+
+  <script>
+    document.getElementById("questionForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const question = document.getElementById("question").value.trim();
+      const answer = document.getElementById("answer").value.trim();
+      const marks = document.getElementById("marks").value.trim();
+
+      if (!question || !answer || !marks) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      fetch('/add_question', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: question, answer: answer, marks: marks })
+      })
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === 'success') {
+          alert("Question added successfully!");
+
+          const listItem = document.createElement("li");
+          listItem.className = "bg-gray-50 p-4 border border-gray-200 rounded";
+          listItem.innerHTML = `<strong>Q:</strong> ${question}<br><strong>Answer:</strong> ${answer}<br><strong>Marks:</strong> ${marks}`;
+          document.getElementById("qaList").appendChild(listItem);
+
+          document.getElementById("question").value = "";
+          document.getElementById("answer").value = "";
+          document.getElementById("marks").value = "";
+        } else {
+          alert("Failed to add question");
+        }
+      })
+      .catch(error => {
+        console.error("Error:", error);
+        alert("Error adding question");
+      });
+    });
+  </script>
+</body>
+</html>

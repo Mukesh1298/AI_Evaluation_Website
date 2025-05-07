@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head><title>Add Teacher</title></head>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to right, #ffecd2,rgb(159, 187, 252));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .form-container {
+    background-color: white;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .form-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+  }
+
+  .form-container input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+
+  .form-container button {
+    width: 100%;
+    padding: 12px;
+    background-color: #28a745;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .form-container button:hover {
+    background-color: #218838;
+  }
+</style>
+<body>
+  <div class="form-container">
+  <h2>Add Teacher</h2>
+  <form method="POST" action="/add_teacher">
+    <input type="text" id="tid" name="tid" placeholder="Teacher ID" required>
+    <input type="text" id="tuser" name="tuser" placeholder="Username" required>
+    <input type="password" id="tpass" name="tpass" placeholder="Password" required>
+    <input type="text" id="subject" name="subject" placeholder="Subject" required>
+    <button type="submit">Add Teacher</button>
+  </form>
+  </div>
+  <script>
+    // JS for form validation before submitting
+    document.getElementById('teacherForm').addEventListener('submit', function(event) {
+      const tid = document.getElementById('tid').value;
+      const tuser = document.getElementById('tuser').value;
+      const tpass = document.getElementById('tpass').value;
+      const subject = document.getElementById('subject').value;
+
+      if (tid === "" || tuser === "" || tpass === "" || subject === "") {
+        alert("Please fill in all fields.");
+        event.preventDefault();  // Prevent form submission
+      }
+    });
+  </script>
+</body>
+</html>

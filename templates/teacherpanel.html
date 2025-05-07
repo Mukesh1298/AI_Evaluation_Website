@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            min-height: 100vh;
+            display: flex;
+        }
+        .sidebar {
+            min-width: 220px;
+            background-color: #343a40;
+            color: white;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 12px;
+            display: block;
+        }
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+        .content {
+            flex-grow: 1;
+            padding: 20px;
+        }
+        .navbar {
+            border-bottom: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar d-flex flex-column p-3">
+        <h4 class="text-center mb-4">Teacher Panel</h4>
+        <a href="#" onclick="loadSection('dashboard')">🏠 Dashboard</a>
+        <a href="add_student" onclick="loadSection('students')">👩‍🎓 Insert Student Details</a>
+        <a href="add_question" onclick="loadSection('questions')">📝 Make Question Paper</a>
+        <a href="students" onclick="loadSection('students')">📝 Show Student Marks</a>
+        <a href="studentData" >📝 Manage Questions</a>
+        <a href="studentDataManage" >📝 Show Student List</a>
+        <a href="/logout">🚪 Logout</a>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="content">
+        <!-- Navbar -->
+        <nav class="navbar navbar-light bg-light mb-4">
+            <span class="navbar-brand mb-0 h1">Welcome, Teacher</span>
+        </nav>
+
+        <!-- Dynamic Section -->
+        <div id="main-section">
+            <h2>Dashboard</h2>
+            <p>Select an option from the sidebar to begin.</p>
+        </div>
+    </div>
+
+    <script>
+        function loadSection(section) {
+            const content = {
+                dashboard: `
+                    <h2>Dashboard</h2>
+                    <p>This is your Teacher control panel.</p>
+                    <p>You can manage students and set question papers here.</p>
+                `
+            };
+
+            document.getElementById('main-section').innerHTML = content[section] || "<p></p>";
+        }
+    </script>
+</body>
+</html>

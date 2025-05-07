@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CRUD App</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6 font-sans">
+  <div class="max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md">
+    <h1 class="text-2xl font-bold text-indigo-700 mb-4">Question Management</h1>
+
+    <form id="questionForm" class="space-y-4 md:flex md:items-center md:space-x-4 mb-6">
+      <input type="hidden" id="questionId">
+      <input type="text" id="question" placeholder="Enter question" required
+        class="flex-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400">
+      <input type="text" id="answer" placeholder="Enter answer" required
+        class="flex-1 p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400">
+      <button type="submit"
+        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-200">Save</button>
+    </form>
+
+    <table class="w-full text-left border border-gray-300 rounded overflow-hidden">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="p-3 border border-gray-300">Question</th>
+          <th class="p-3 border border-gray-300">Answer</th>
+          <th class="p-3 border border-gray-300">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="questionList" class="divide-y divide-gray-200"></tbody>
+    </table>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchQuestions();
+
+      const form = document.getElementById("questionForm");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const id = document.getElementById("questionId").value;
+        const question = document.getElementById("question").value;
+        const answer = document.getElementById("answer").value;
+
+        if (id) {
+          await fetch(`/api/questions/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question, answer })
+          });
+        } else {
+          await fetch("/api/questions", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ question, answer })
+          });
+        }
+
+        form.reset();
+        fetchQuestions();
+      });
+    });
+
+    async function fetchQuestions() {
+      const res = await fetch("/api/questions");
+      const data = await res.json();
+      const list = document.getElementById("questionList");
+      list.innerHTML = "";
+      data.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td class="p-3 border border-gray-300">${item.question}</td>
+          <td class="p-3 border border-gray-300">${item.answer}</td>
+          <td class="p-3 border border-gray-300 space-x-2">
+            <button onclick="editQuestion(${item.id}, '${item.question.replace(/'/g, "\\'")}', '${item.answer.replace(/'/g, "\\'")}')"
+              class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Edit</button>
+            <button onclick="deleteQuestion(${item.id})"
+              class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</button>
+          </td>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    function editQuestion(id, question, answer) {
+      document.getElementById("questionId").value = id;
+      document.getElementById("question").value = question;
+      document.getElementById("answer").value = answer;
+    }
+
+    async function deleteQuestion(id) {
+      await fetch(`/api/questions/${id}`, { method: "DELETE" });
+      fetchQuestions();
+    }
+  </script>
+</body>
+</html>

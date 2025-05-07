@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register Student</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-5">
+    <h2 class="mb-4 text-center">📝 Register New Student</h2>
+
+    <form id="studentForm" class="shadow p-4 rounded bg-light">
+        <div class="mb-3">
+            <label for="studentId" class="form-label">Student ID</label>
+            <input type="text" class="form-control" id="studentId" required>
+        </div>
+        <div class="mb-3">
+            <label for="studentName" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="studentName" required>
+        </div>
+        <div class="mb-3">
+            <label for="studentUsername" class="form-label">Username</label>
+            <input type="text" class="form-control" id="studentUsername" required>
+        </div>
+        <div class="mb-3">
+            <label for="studentPassword" class="form-label">Password</label>
+            <input type="password" class="form-control" id="studentPassword" required>
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Register</button>
+    </form>
+        <script>
+            document.getElementById('studentForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+        
+                const id = document.getElementById('studentId').value;
+                const name = document.getElementById('studentName').value;
+                const username = document.getElementById('studentUsername').value;
+                const password = document.getElementById('studentPassword').value;
+        
+                // Step 1: Register the student (login info)
+                fetch('/student_register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        sid: id,
+                        sname: name,
+                        susername: username,
+                        spassword: password
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.message === 'Registration successful') {
+                        // Step 2: Add student to secondary database (e.g., marks table)
+                        return fetch('/studentdatabase', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                sid: id,
+                                sname: name
+                            })
+                        });
+                    } else {
+                        throw new Error("Registration failed: " + data.message);
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Student added to database:", data);
+                    alert("Registration successful!");
+                    window.location.href = "/student";
+                })
+                .catch(error => {
+                    alert("Error: " + error.message);
+                    console.log(error)
+                });
+            });
+        </script>
+    
+</body>
+</html>

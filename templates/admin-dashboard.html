@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HOD Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f5f5f5;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    form input {
+      margin: 5px;
+      padding: 8px;
+    }
+    button {
+      padding: 8px 10px;
+      margin: 5px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 10px;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-indigo-100 to-white min-h-screen flex flex-col">
+
+  <nav class="bg-indigo-700 text-white p-6 shadow-md flex justify-between items-center">
+    <h1 class="text-2xl font-bold tracking-wide">📋 HOD Dashboard</h1>
+    <div>
+      <a href="/" class="bg-white text-indigo-700 hover:bg-indigo-100 font-semibold px-4 py-2 rounded mr-4 transition">Home</a>
+      <a href="/teacherenter" class="bg-white text-indigo-700 hover:bg-indigo-100 font-semibold px-4 py-2 rounded transition">Teacher SignUp</a>
+    </div>
+  </nav>
+
+  <div class="container mt-8 shadow-lg">
+    <h2 class="text-xl font-semibold mb-4 text-indigo-800">Teacher List</h2>
+    <table class="table-auto w-full bg-white rounded">
+      <thead class="bg-indigo-100 text-indigo-800">
+        <tr>
+          <th class="px-4 py-2">ID</th>
+          <th class="px-4 py-2">Username</th>
+          <th class="px-4 py-2">Password</th>
+          <th class="px-4 py-2">Subject</th>
+          <th class="px-4 py-2">Actions</th>
+        </tr>
+      </thead>
+      <tbody id="teacherList" class="text-center text-gray-700"></tbody>
+    </table>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchTeachers();
+
+      const form = document.getElementById("teacherForm");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const id = document.getElementById("teacherId").value;
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const subject = document.getElementById("subject").value;
+
+        if (id) {
+          await fetch(`/api/teacherManage/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password, subject })
+          });
+        } else {
+          await fetch("/api/teacherManage", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password, subject })
+          });
+        }
+
+        form.reset();
+        fetchTeachers();
+      });
+    });
+
+    async function fetchTeachers() {
+      const res = await fetch("/api/teacherManage");
+      const data = await res.json();
+      const list = document.getElementById("teacherList");
+      list.innerHTML = "";
+      data.forEach(item => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td class="py-2">${item.id}</td>
+          <td class="py-2">${item.username}</td>
+          <td class="py-2">${item.password}</td>
+          <td class="py-2">${item.subject}</td>
+          <td class="py-2">
+            <button onclick="deleteTeacher(${item.id})" class="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded transition">Delete</button>
+          </td>
+        `;
+        list.appendChild(row);
+      });
+    }
+
+    function editTeacher(id, username, password, subject) {
+      document.getElementById("teacherId").value = id;
+      document.getElementById("username").value = username;
+      document.getElementById("password").value = password;
+      document.getElementById("subject").value = subject;
+    }
+
+    async function deleteTeacher(id) {
+      await fetch(`/api/teacherManage/${id}`, { method: "DELETE" });
+      fetchTeachers();
+    }
+  </script>
+</body>
+</html>
